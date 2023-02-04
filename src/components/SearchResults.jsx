@@ -44,7 +44,7 @@ function SearchResults() {
         <div className="user-result">
           {users.map((user) => (
             <Link>
-              <UserCard cardKey={user.id} user={user} />
+              <UserCard key={user.id} user={user} />
             </Link>
           ))}
         </div>
