@@ -21,7 +21,7 @@ const githubReducer = (state, action) => {
       return {
         ...state,
         repos: action.payload,
-        loading: false,
+        loading: false, 
       };
     case "CLEAR_USERS":
       return {

@@ -672,7 +672,6 @@ body {
 nav img {
   width: 50px;
   border-radius: 50%;
-  border: 3px solid rgb(34, 74, 254);
 }
 .navbar {
   display: flex;

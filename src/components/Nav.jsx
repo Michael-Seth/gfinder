@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import svg from "../assets/cartoon-me.jpeg";
+import svg from "../assets/image.me.jpg";
 
 function Nav() {
   return (

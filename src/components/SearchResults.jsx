@@ -1,19 +1,23 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import GithubContext from "../context/github/GithubContext";
+import AlertContext from "../context/alerts/AlertContext";
 import UserCard from "./UserCard";
 
 function SearchResults() {
   const [search, setSearch] = useState("");
   const { users, loading, searchUsers, clearUsers } = useContext(GithubContext);
 
+  const { setAlert } = useContext(AlertContext);
+
+  //console.log(users);
   const handleChange = (e) => {
     setSearch(e.target.value);
   };
   const onSubmit = (e) => {
     e.preventDefault();
     if (search === "") {
-      let empty = "The provided username is not valid, please try again";
+      setAlert("Please enter a github username.");
     } else {
       //Search Users
       searchUsers(search);
@@ -44,9 +48,14 @@ function SearchResults() {
             </Link>
           ))}
         </div>
-        <button className="user-result btn" onClick={clearUsers}>
-          Clear
-        </button>
+        <div className="section-container">
+          <button
+            className="bg-yellow px-6 py-4 rounded-sm hover:bg-black text-white hover:text-white"
+            onClick={clearUsers}
+          >
+            Clear
+          </button>
+        </div>
       </div>
     );
   }

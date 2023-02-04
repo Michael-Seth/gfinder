@@ -18,7 +18,6 @@ export const GithubProvider = ({ children }) => {
   //To Search All users keyword
   const searchUsers = async (search) => {
     setLoading();
-
     const params = new URLSearchParams({
       q: search,
     });
@@ -28,7 +27,7 @@ export const GithubProvider = ({ children }) => {
       },
     });
     const { items } = await response.json();
-
+    //console.log(items);
     dispatch({
       type: "GET_USERS",
       payload: items,
@@ -36,10 +35,10 @@ export const GithubProvider = ({ children }) => {
   };
 
   //To Search Single User
-  const searchUser = async (login) => {
+  const searchUser = async (singleSearch) => {
     setLoading();
 
-    const response = await fetch(`${GITHUB_URL}/users/${login}`, {
+    const response = await fetch(`${GITHUB_URL}/users/${singleSearch}`, {
       headers: {
         Authorization: `token ${GITHUB_TOKEN}`,
       },
@@ -60,21 +59,24 @@ export const GithubProvider = ({ children }) => {
   };
 
   //search Nested route
-  const searchRepo = async (login) => {
+  const searchRepo = async (repoSearch) => {
     setLoading();
 
-    const response = await fetch(`${GITHUB_URL}/users/${login}/repos`, {
-      headers: {
-        Authorization: `token ${GITHUB_TOKEN}`,
-      },
-    });
+    const response = await fetch(
+      `${GITHUB_URL}/users/${repoSearch}/repos?per_page=5&sort=created:asc`,
+      {
+        headers: {
+          Authorization: `token ${GITHUB_TOKEN}`,
+        },
+      }
+    );
 
     //Redirect for 404 response
     if (response.status === 404) {
       window.location = "/notfound";
     } else {
       const repos = await response.json();
-
+      //console.log(repos);
       //Dispatch for Reducer
       dispatch({
         type: "GET_REPOS",
@@ -99,6 +101,7 @@ export const GithubProvider = ({ children }) => {
         users: state.users,
         loading: state.loading,
         user: state.user,
+        repos: state.repos,
         searchUsers,
         clearUsers,
         searchUser,
