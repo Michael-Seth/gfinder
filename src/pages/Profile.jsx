@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import Nav from "../components/Nav";
 import GithubContext from "../context/github/GithubContext";
 import Repolist from "../components/Repolist";
+import Preloader from "../components/Preloader";
 
 function Result() {
   // Import useContxt and use effect to get single user
@@ -14,7 +15,7 @@ function Result() {
     searchRepo(params.login);
   }, []);
 
-  console.log(repos);
+  //console.log(repos);
 
   const {
     name,
@@ -34,7 +35,11 @@ function Result() {
   } = user;
   //console.log(user);
   if (loading) {
-    return <h1>Loading</h1>;
+    return (
+      <div className="center-loader">
+        <Preloader />;
+      </div>
+    );
   }
   return (
     <>
@@ -105,17 +110,21 @@ function Result() {
                   </h1>
                   <p className="mt-2">{bio}</p>
                 </div>
-                <a
-                  href={html_url}
+                <Link
+                  to={html_url}
                   target="_blank"
                   rel="noreferrer"
-                  className="bg-yellow px-6 py-4 rounded-sm hover:bg-black hover:text-white"
+                  className="bg-yellow px-6 py-4 rounded-sm hover:bg-black text-white "
                 >
                   Visit Github Profile
-                </a>
+                </Link>
               </div>
               <h2 className="my-8 text-xl ">Recent Repositories</h2>
               <Repolist repos={repos} />
+              <br />
+              <br />
+              <br />
+              <br />
             </div>
           </div>
         </section>

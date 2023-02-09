@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import GithubContext from "../context/github/GithubContext";
 import AlertContext from "../context/alerts/AlertContext";
 import UserCard from "./UserCard";
+//import Alert from "./Alert";
+import Preloader from "./Preloader";
 
 function SearchResults() {
   const [search, setSearch] = useState("");
@@ -16,21 +18,28 @@ function SearchResults() {
   };
   const onSubmit = (e) => {
     e.preventDefault();
+    clearUsers();
+
     if (search === "") {
       setAlert("Please enter a github username.");
+      // <Alert />;
     } else {
-      //Search Users
       searchUsers(search);
-
       setSearch("");
     }
   };
 
   let display;
 
+  if (loading) {
+    display = <Preloader />;
+  }
+
   if (users.length > 0) {
     display = (
-      <div className="">
+      <div>
+        <br />
+        <br />
         <h2
           style={{
             margin: "30px auto",
@@ -43,12 +52,13 @@ function SearchResults() {
         </h2>
         <div className="user-result">
           {users.map((user) => (
-            <Link>
+            <Link to={`/user/${user.login}`} key={user.id}>
               <UserCard key={user.id} user={user} />
             </Link>
           ))}
         </div>
-        <div className="section-container">
+        <br />
+        <div className="center-btn">
           <button
             className="bg-yellow px-6 py-4 rounded-sm hover:bg-black text-white hover:text-white"
             onClick={clearUsers}
@@ -58,17 +68,20 @@ function SearchResults() {
         </div>
       </div>
     );
+  } else {
   }
-  if (!loading && users.length === 0) {
-    display = <h1>Please search for a user</h1>;
-  }
+  // if (!loading && users.length === 0) {
+  //   display = <h1>Please search for a user</h1>;
+  // }
 
   return (
     <div>
+      <br />
+      <br />
       <div className=" section-container flex h-[40vh] justify-around w-full">
         <div className=" ">
           <h1 className="mt-8 text-3xl md:text-5xl font-bold mb-4">
-            Search Your Github User
+            Search <span style={{ color: "#0d35eb" }}>Your</span> Github User
           </h1>
           <p className="mb-8">Please enter your github username bellow </p>
           <form onSubmit={onSubmit}>
@@ -92,11 +105,16 @@ function SearchResults() {
               </button>
             </div>
           </form>
-
-          <p>😣</p>
         </div>
       </div>
       {display}
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
     </div>
   );
 }

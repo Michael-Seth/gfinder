@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import frame from "../assets/frame.svg";
 import profile from "../assets/github.com_Michael-Seth.png";
-import Footer from "../components/Footer";
+//import Footer from "../components/Footer";
 import Nav from "../components/Nav";
+import GithubContext from "../context/github/GithubContext";
 
 function Home() {
+  const { clearUsers } = useContext(GithubContext);
+
   return (
     <div>
       <section className="h-screen bg-hero w-full bg-cover bg-center">
@@ -23,6 +26,7 @@ function Home() {
             <Link
               className="bg-yellow px-6 py-4 rounded-sm hover:bg-black hover:text-white"
               to="/search"
+              onClick={clearUsers}
               style={{ color: "#fff" }}
             >
               Try It Now
@@ -130,7 +134,6 @@ function Home() {
             </span>
           </div>
         </div>
-        <Footer />
       </section>
     </div>
   );

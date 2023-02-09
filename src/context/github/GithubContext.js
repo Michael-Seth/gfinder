@@ -11,7 +11,7 @@ export const GithubProvider = ({ children }) => {
     users: [],
     user: {},
     repos: [],
-    loading: true,
+    loading: false,
   };
   const [state, dispatch] = useReducer(githubReducer, initialState);
 
@@ -26,12 +26,14 @@ export const GithubProvider = ({ children }) => {
         Authorization: `token ${GITHUB_TOKEN}`,
       },
     });
+
     const { items } = await response.json();
-    console.log(items);
-    dispatch({
-      type: "GET_USERS",
-      payload: items,
-    });
+    setTimeout(() => {
+      dispatch({
+        type: "GET_USERS",
+        payload: items,
+      });
+    }, 2500);
   };
 
   //To Search Single User
@@ -91,10 +93,12 @@ export const GithubProvider = ({ children }) => {
   };
 
   //Set Loading
-  const setLoading = () =>
+  const setLoading = () => {
     dispatch({
       type: "SET_LOADING",
     });
+  };
+
   return (
     <GithubContext.Provider
       value={{
@@ -106,6 +110,7 @@ export const GithubProvider = ({ children }) => {
         clearUsers,
         searchUser,
         searchRepo,
+        setLoading,
       }}
     >
       {children}
